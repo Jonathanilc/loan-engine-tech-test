@@ -10,7 +10,13 @@
       "Bash(pnpm create:*)",
       "Bash(printf '\\\\n\\\\n')",
       "Bash(CI=true pnpm create next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --no-turbopack 2>&1)",
-      "Bash(pnpm dlx:*)"
+      "Bash(pnpm dlx:*)",
+      "Bash(pnpm add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)",
+      "Bash(pnpm test:*)"
     ]
   }
 }
