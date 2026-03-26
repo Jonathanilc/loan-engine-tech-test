@@ -24,7 +24,14 @@
       "Bash(mv \"__tests__/components/TransactionRow.test.tsx\" \"app/accounts/[accountId]/_components/TransactionRow.test.tsx\")",
       "Bash(mv \"__tests__/components/TransactionTableSkeleton.test.tsx\" \"app/accounts/[accountId]/_components/TransactionTableSkeleton.test.tsx\")",
       "Bash(sed -i 's|├── __tests__/                              # Unit + component tests \\(mirrors src structure\\)||' /c/Users/Jonat/Documents/tech-interview/loan-engine/doc/PLAN.md)",
-      "Bash(sed -i 's|│   ├── lib/||' /c/Users/Jonat/Documents/tech-interview/loan-engine/doc/PLAN.md)"
+      "Bash(sed -i 's|│   ├── lib/||' /c/Users/Jonat/Documents/tech-interview/loan-engine/doc/PLAN.md)",
+      "Bash(wait)",
+      "Bash(pnpm exec:*)",
+      "Bash(pnpm test:e2e)",
+      "Bash(node:*)",
+      "Bash(find /c/Users/Jonat/Documents/tech-interview/loan-engine/node_modules/.pnpm/@base-ui+react@1.3.0_@types_b7642aa41a31d307e1bfeb777a70410b -name *.js)",
+      "WebFetch(domain:img.notionusercontent.com)",
+      "Bash(pnpm build:*)"
     ]
   }
 }

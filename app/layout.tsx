@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { NavBar } from '@/components/nav-bar'
+import { AppSidebar } from '@/components/app-sidebar'
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
@@ -15,12 +15,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col antialiased">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
           <TooltipProvider>
-            <NavBar />
-            {children}
+            <div className="flex h-screen overflow-hidden">
+              <AppSidebar />
+              <div className="flex flex-1 flex-col overflow-y-auto">
+                {children}
+              </div>
+            </div>
           </TooltipProvider>
         </ThemeProvider>
       </body>

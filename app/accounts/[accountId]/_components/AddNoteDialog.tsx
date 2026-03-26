@@ -50,7 +50,7 @@ export function AddNoteDialog({
             rows={4}
           />
           {state && !state.success && state.error.formErrors.length > 0 && (
-            <p className="text-sm text-destructive">{state.error.formErrors[0]}</p>
+            <p className="text-sm text-destructive">{String(state.error.formErrors[0])}</p>
           )}
           <Button type="submit" disabled={isPending} className="w-full">
             {isPending ? 'Saving…' : 'Save Note'}

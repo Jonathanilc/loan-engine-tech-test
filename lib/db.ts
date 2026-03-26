@@ -2,7 +2,7 @@ import type { LoanAccount, Transaction, TransactionFilter } from '@/lib/types'
 
 const seed: LoanAccount = {
   id: 'acc_001',
-  borrowerName: 'Jonathan Adeyemi',
+  borrowerName: 'Jonathan Xu',
   principal: 50000,
   outstandingBalance: 34218.5,
   interestRate: 6.75,

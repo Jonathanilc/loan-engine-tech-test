@@ -1,7 +1,6 @@
 import { getAccount } from '@/lib/db'
 import { delay } from '@/lib/delay'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
 function fmt(amount: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
@@ -9,6 +8,17 @@ function fmt(amount: number) {
 
 function fmtDate(iso: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(iso))
+}
+
+function Field({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="space-y-0.5">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className={accent ? 'text-sm font-semibold text-primary' : 'text-sm font-semibold'}>
+        {value}
+      </p>
+    </div>
+  )
 }
 
 export async function LoanSummaryCard({ accountId }: { accountId: string }) {
@@ -21,39 +31,29 @@ export async function LoanSummaryCard({ accountId }: { accountId: string }) {
 
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {account.borrowerName}
-        </CardTitle>
+      <CardHeader className="border-b pb-3 pt-4 px-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-base font-semibold">{account.borrowerName}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{accountId}</p>
+          </div>
+          <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+            Active
+          </span>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <p className="text-xs text-muted-foreground">Outstanding Balance</p>
-          <p className="text-3xl font-bold tracking-tight">{fmt(account.outstandingBalance)}</p>
+
+      <CardContent className="px-5 py-4 space-y-4">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
+          <Field label="Outstanding Balance" value={fmt(account.outstandingBalance)} accent />
+          <Field label="Principal" value={fmt(account.principal)} />
+          <Field label="Interest Rate" value={`${account.interestRate}%`} />
+          <Field label="Next Payment" value={fmt(account.nextPaymentAmount)} />
+          <Field label="Due Date" value={fmtDate(account.nextPaymentDate)} />
+          <Field label="Repaid" value={`${repaidPct.toFixed(1)}%`} />
         </div>
 
-        <Separator />
-
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div>
-            <p className="text-xs text-muted-foreground">Principal</p>
-            <p className="text-sm font-semibold">{fmt(account.principal)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Interest Rate</p>
-            <p className="text-sm font-semibold">{account.interestRate}%</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Next Payment</p>
-            <p className="text-sm font-semibold">{fmt(account.nextPaymentAmount)}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Due Date</p>
-            <p className="text-sm font-semibold">{fmtDate(account.nextPaymentDate)}</p>
-          </div>
-        </div>
-
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>Repayment progress</span>
             <span>{repaidPct.toFixed(1)}%</span>
@@ -63,7 +63,7 @@ export async function LoanSummaryCard({ accountId }: { accountId: string }) {
             aria-valuenow={repaidPct}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="h-2 w-full overflow-hidden rounded-full bg-secondary"
+            className="h-1.5 w-full overflow-hidden rounded-full bg-secondary"
           >
             <div
               className="h-full bg-primary transition-all"
