@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-create-pages",
+      "Bash(curl -s -o /tmp/loan-screenshot.png \"https://prod-files-secure.s3.us-west-2.amazonaws.com/738d2f89-e5dd-81b3-a5f1-00033673a3d2/446beb32-7240-4f5e-9315-b1f8d446ffaf/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466YEYQKDBW%2F20260326%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260326T045847Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDSjZp%2FWi6Ih3Ax%2BoYmNe2%2FLJaVC0RAsLHXaWB5J9b9yAIhAJqcmok6h3aPsmDRX10bsgCUXAJ9Wt8Odgl5RJBioVC3KogECLz%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjM3NDIzMTgzODA1IgyLHYUFi1%2Bv8AXAQOsq3AOjlSg06u6cHcnmskalopBSFeujb1hrFeUbE%2BwBVkLqpJat2LN8pW%2B%2FhDuOcKngg7IF2%2Fl5%2BoTXblKqdx9AliRsa94iVxyRD%2B4c7i51X6uFSR%2BFh%2BN%2FSsLiRetSxkP6rqese9MX2%2BDRkpRrXF9TQTz5f%2BNS8YBjDBvxlTikZqzDF2FCutHJqyuvBpc7aWt3OSqdVfW8Dg2dpBCbIy7G384JIyZ3ie2II75b1q14zZPnHjz%2B31YE1C2pK1VaFEpSGBh7TdcQbr2ZiFiIUgt1wpsv0ejVLkRiZjMH37yoyrQ6WcsaBK%2BVwg22d2QsbjQ9Q0pJgd06Tt9VLEWBiRai5%2FCEpUmlAqsBsTV8CDMSEWC4zk%2FZHkhiI8yPt999a7hWu846qtYQ4YxHnN2cSA25Yi7LNJ847QNqlBkzDR%2Bq8NIQ1%2FY6DQbBzD%2FWVHqVudnu3%2BnSaJP56HUw8RZlz%2FxfF3oRE8l1RxD4zzhVx2t9K%2Bkfyc9pFiDkabJYdNbHMCfXXFCcMH4BBiJGUsSgvMvZ9ncFKOf9IvT30Aa9cWggsh6V62nali5gQTg9AdFzpcYO7pRCr5e1XzvbFx%2FA%2F00mgw1kh6h0HSojVdAx3kBa70mYpOEo4aPLXFYgq6XI7zCZx5LOBjqkAQMNWWqGarh6Rb6DLeiwWdxf%2BRTYJB5nCrEadViV6siRXHHEQdBuQP5L18aE8z7IoCkKvi7TVGoQxh3dpYnGJz39S058115aM8bGFA%2BH6Rk5qKSYdRN0USG9rkQ6FDdcz%2Fkib5g8PMV0%2FHOWDLpNvA2PWbkF5uOpG6YdqrdRIOE%2FduIy8h0%2BgxaK9k6z%2FmyColnkWSxtFejumVArw1HZX1OnknIT&X-Amz-Signature=cb38a1a9c3a2feb7a5a6ee22488a1fa5505d232758dfa8b73f49431c2615967f&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject\")",
+      "Bash(pnpm --version)",
+      "Bash(npm install:*)",
+      "Bash(pnpm create:*)",
+      "Bash(printf '\\\\n\\\\n')",
+      "Bash(CI=true pnpm create next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --no-turbopack 2>&1)",
+      "Bash(pnpm dlx:*)"
+    ]
+  }
+}
