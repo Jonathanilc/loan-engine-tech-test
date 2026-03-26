@@ -22,6 +22,9 @@ Open [http://localhost:3000](http://localhost:3000) — redirects to the loan ac
 ## Running tests
 
 ```bash
+# Lint
+pnpm lint
+
 # Unit + component tests (Vitest)
 pnpm test
 
@@ -34,6 +37,24 @@ pnpm test:e2e
 # E2E with interactive UI
 pnpm test:e2e:ui
 ```
+
+---
+
+## CI/CD
+
+Every push and pull request to `main`/`master` runs three sequential GitHub Actions jobs:
+
+```
+unit → Lint & Build → e2e
+```
+
+| Job | Steps |
+|---|---|
+| **Unit & Component Tests** | Type check (`tsc --noEmit`) → Vitest (89 tests) |
+| **Lint & Build** | ESLint → `next build` |
+| **E2E Tests** | Playwright on Chromium; HTML report uploaded as artifact on failure |
+
+A **pre-commit hook** (husky + lint-staged) runs ESLint over staged `.ts/.tsx` files before every commit, so lint failures are caught locally before they reach CI.
 
 ---
 
@@ -132,4 +153,13 @@ Tests are **co-located** with their implementation files — `FilterTabs.tsx` si
 - **Optimistic flag toggle** — flips instantly on click, confirms with server state after mutation
 - **Filter tab dims** — `opacity-50` while the server re-fetches, gives tactile feedback without a full skeleton flash
 - **Dark mode** — all colours via CSS variables, zero hardcoded values, no flash on load
+
+---
+
+## Design
+
+- **Typography** — [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (weights 300–800) for UI text; [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) for all numeric and monospaced values
+- **Layout** — dark left sidebar with active-item accent; breadcrumb header; full-width content area with card sections
+- **Semantic status colours** — `emerald` for active/completed, `amber` for pending, `red` for failed; `sky` for incoming, `slate` for outgoing
+- **Account sections** — Loan Summary, Recent Activity, Pricing Setup, Security, Linked Accounts, Payment Settings, Reconciliation, Transaction History
 
