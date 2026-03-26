@@ -25,7 +25,7 @@ export async function TransactionTable({
   }
 
   return (
-    <div className="rounded-lg border bg-background shadow-sm">
+    <div className="rounded-lg border bg-background shadow-sm" data-testid="transaction-table">
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50 hover:bg-muted/50">

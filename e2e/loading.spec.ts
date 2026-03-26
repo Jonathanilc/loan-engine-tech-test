@@ -7,14 +7,14 @@ test.describe('Loading states', () => {
     await page.goto('/accounts/acc_001')
 
     // Either we catch the skeleton in flight, or the real table is already there
-    // In both cases the page must eventually show the table
-    await page.waitForSelector('table', { timeout: 10000 })
-    await expect(page.locator('table')).toBeVisible()
+    // In both cases the page must eventually show the transaction table
+    await page.waitForSelector('[data-testid="transaction-table"]', { timeout: 10000 })
+    await expect(page.locator('[data-testid="transaction-table"] table')).toBeVisible()
   })
 
   test('real content replaces skeleton after load', async ({ page }) => {
     await page.goto('/accounts/acc_001')
-    await page.waitForSelector('table')
+    await page.waitForSelector('[data-testid="transaction-table"]')
 
     // No skeleton rows should remain once table is visible
     const skeletonRows = page.locator('[data-testid="skeleton-row"]')
@@ -23,7 +23,7 @@ test.describe('Loading states', () => {
 
   test('table dims while switching filters', async ({ page }) => {
     await page.goto('/accounts/acc_001')
-    await page.waitForSelector('table')
+    await page.waitForSelector('[data-testid="transaction-table"]')
 
     // Click filter and immediately check for opacity class on the wrapper
     const filterWrapper = page.locator('[data-testid="filter-tabs-wrapper"][class*="opacity-50"]')
@@ -33,15 +33,16 @@ test.describe('Loading states', () => {
 
     // Eventually the filter completes and opacity class is removed
     await page.waitForURL(/\?filter=incoming/)
-    await page.waitForSelector('table')
+    await page.waitForSelector('[data-testid="transaction-table"]')
     await expect(filterWrapper).toHaveCount(0)
   })
 
   test('loan summary card renders with account details', async ({ page }) => {
     await page.goto('/accounts/acc_001')
     // Wait for the balance to appear (proves SSR + async data loaded)
-    await expect(page.getByText('$34,218.50')).toBeVisible({ timeout: 10000 })
-    await expect(page.getByText('Jonathan Xu')).toBeVisible()
-    await expect(page.getByText('6.75%')).toBeVisible()
+    const card = page.locator('[data-testid="loan-summary-card"]')
+    await expect(card.getByText('$34,218.50')).toBeVisible({ timeout: 10000 })
+    await expect(card.getByText('Jonathan Xu')).toBeVisible()
+    await expect(card.getByText('6.75%')).toBeVisible()
   })
 })

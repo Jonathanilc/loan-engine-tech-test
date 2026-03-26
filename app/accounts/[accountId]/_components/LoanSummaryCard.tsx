@@ -28,7 +28,7 @@ export async function LoanSummaryCard({ accountId }: { accountId: string }) {
   const repaidPct = Math.max(0, Math.min(100, repaid))
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" data-testid="loan-summary-card">
       {/* Hero strip */}
       <div className="flex items-center justify-between border-b bg-background px-5 py-4">
         <div className="flex items-center gap-4">
