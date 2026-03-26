@@ -17,6 +17,8 @@ export default defineConfig({
         'lib/utils.ts',
         'lib/types.ts',
         '**/*.config.*',
+        '**/*.test.{ts,tsx}',
+        '**/*.spec.{ts,tsx}',
         'e2e/**',
       ],
       thresholds: {

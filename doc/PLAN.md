@@ -13,10 +13,12 @@ The rule is simple — no implementation file ships without a test file. Coverag
 
 ## Folder Structure (Target)
 
+Tests are co-located with their implementation files (vertical slice). No separate `__tests__/` folder.
+
 ```
 loan-engine/
 ├── app/
-│   ├── layout.tsx                          # Root layout: ThemeProvider, TooltipProvider, NavBar
+│   ├── layout.tsx
 │   ├── globals.css                         # Tailwind base + shadcn CSS variables (light/dark)
 │   ├── page.tsx                            # Redirect → /accounts/acc_001
 │   └── accounts/
@@ -26,44 +28,40 @@ loan-engine/
 │           ├── error.tsx                   # Error boundary
 │           └── _components/
 │               ├── LoanSummaryCard.tsx
+│               ├── LoanSummaryCard.test.tsx     ← co-located
 │               ├── LoanSummaryCardSkeleton.tsx
+│               ├── LoanSummaryCardSkeleton.test.tsx
 │               ├── TransactionTable.tsx
+│               ├── TransactionTable.test.tsx
 │               ├── TransactionRow.tsx
+│               ├── TransactionRow.test.tsx
 │               ├── TransactionTableSkeleton.tsx
+│               ├── TransactionTableSkeleton.test.tsx
 │               ├── FilterTabs.tsx
+│               ├── FilterTabs.test.tsx
 │               ├── AddNoteDialog.tsx
-│               └── FlagButton.tsx
+│               ├── AddNoteDialog.test.tsx
+│               ├── FlagButton.tsx
+│               └── FlagButton.test.tsx
 ├── lib/
-│   ├── types.ts                            # Shared TypeScript interfaces (no test needed — types only)
-│   ├── db.ts                               # In-memory mock data store
-│   ├── delay.ts                            # sleep(min, max) utility
-│   └── utils.ts                            # cn() helper (shadcn — no test needed)
+│   ├── types.ts                            # Types only — no test needed
+│   ├── db.ts
+│   ├── db.test.ts                          ← co-located
+│   ├── delay.ts
+│   ├── delay.test.ts
+│   └── utils.ts                            # shadcn boilerplate — no test needed
 ├── actions/
 │   ├── add-note.ts
-│   └── flag-transaction.ts
+│   ├── add-note.test.ts                    ← co-located
+│   ├── flag-transaction.ts
+│   └── flag-transaction.test.ts
 ├── components/
-│   ├── ui/                                 # shadcn auto-managed (no tests — third-party)
+│   ├── ui/                                 # shadcn auto-managed — no tests
 │   ├── nav-bar.tsx
-│   └── theme-toggle.tsx
-├── __tests__/                              # Unit + component tests (mirrors src structure)
-│   ├── lib/
-│   │   ├── db.test.ts
-│   │   └── delay.test.ts
-│   ├── actions/
-│   │   ├── add-note.test.ts
-│   │   └── flag-transaction.test.ts
-│   └── components/
-│       ├── NavBar.test.tsx
-│       ├── ThemeToggle.test.tsx
-│       ├── LoanSummaryCard.test.tsx
-│       ├── LoanSummaryCardSkeleton.test.tsx
-│       ├── TransactionTable.test.tsx
-│       ├── TransactionRow.test.tsx
-│       ├── TransactionTableSkeleton.test.tsx
-│       ├── FilterTabs.test.tsx
-│       ├── AddNoteDialog.test.tsx
-│       └── FlagButton.test.tsx
-├── e2e/                                    # Playwright E2E tests
+│   ├── nav-bar.test.tsx                    ← co-located
+│   ├── theme-toggle.tsx
+│   └── theme-toggle.test.tsx
+├── e2e/                                    # Playwright E2E tests (browser-level, can't co-locate)
 │   ├── filter.spec.ts
 │   ├── add-note.spec.ts
 │   ├── flag.spec.ts

@@ -17,7 +17,14 @@
       "Bash(git remote:*)",
       "Bash(git push:*)",
       "Bash(pnpm test:*)",
-      "Bash(pnpm test:cov)"
+      "Bash(pnpm test:cov)",
+      "Bash(mv \"__tests__/components/LoanSummaryCard.test.tsx\" \"app/accounts/[accountId]/_components/LoanSummaryCard.test.tsx\")",
+      "Bash(mv \"__tests__/components/LoanSummaryCardSkeleton.test.tsx\" \"app/accounts/[accountId]/_components/LoanSummaryCardSkeleton.test.tsx\")",
+      "Bash(mv \"__tests__/components/TransactionTable.test.tsx\" \"app/accounts/[accountId]/_components/TransactionTable.test.tsx\")",
+      "Bash(mv \"__tests__/components/TransactionRow.test.tsx\" \"app/accounts/[accountId]/_components/TransactionRow.test.tsx\")",
+      "Bash(mv \"__tests__/components/TransactionTableSkeleton.test.tsx\" \"app/accounts/[accountId]/_components/TransactionTableSkeleton.test.tsx\")",
+      "Bash(sed -i 's|├── __tests__/                              # Unit + component tests \\(mirrors src structure\\)||' /c/Users/Jonat/Documents/tech-interview/loan-engine/doc/PLAN.md)",
+      "Bash(sed -i 's|│   ├── lib/||' /c/Users/Jonat/Documents/tech-interview/loan-engine/doc/PLAN.md)"
     ]
   }
 }
