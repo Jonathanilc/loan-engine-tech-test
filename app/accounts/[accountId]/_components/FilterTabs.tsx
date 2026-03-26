@@ -28,7 +28,7 @@ export function FilterTabs({
   }
 
   return (
-    <div className={cn(isPending && 'pointer-events-none opacity-50')}>
+    <div data-testid="filter-tabs-wrapper" className={cn(isPending && 'pointer-events-none opacity-50')}>
       <Tabs value={currentFilter ?? 'all'} onValueChange={handleChange}>
         <TabsList>
           <TabsTrigger value="all">All</TabsTrigger>
