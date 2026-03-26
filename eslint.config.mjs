@@ -12,7 +12,16 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated output
+    "coverage/**",
+    "playwright-report/**",
   ]),
+  {
+    rules: {
+      // Treat _-prefixed args as intentionally unused (stub components, future params)
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    },
+  },
 ]);
 
 export default eslintConfig;

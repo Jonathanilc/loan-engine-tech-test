@@ -26,6 +26,7 @@ export function AddNoteDialog({
   const [state, formAction, isPending] = useActionState(addNote, null)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- closing dialog in response to server action state is intentional
     if (state?.success) setOpen(false)
   }, [state])
 

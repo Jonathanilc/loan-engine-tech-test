@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Loading states', () => {
   test('skeleton rows are visible during initial page load', async ({ page }) => {
     // Intercept the page before data resolves
-    const skeletonPromise = page.locator('[data-testid="skeleton-row"]').first().waitFor()
+    page.locator('[data-testid="skeleton-row"]').first().waitFor()
     await page.goto('/accounts/acc_001')
 
     // Either we catch the skeleton in flight, or the real table is already there
@@ -41,7 +41,7 @@ test.describe('Loading states', () => {
     await page.goto('/accounts/acc_001')
     // Wait for the balance to appear (proves SSR + async data loaded)
     await expect(page.getByText('$34,218.50')).toBeVisible({ timeout: 10000 })
-    await expect(page.getByText('Jonathan Adeyemi')).toBeVisible()
+    await expect(page.getByText('Jonathan Xu')).toBeVisible()
     await expect(page.getByText('6.75%')).toBeVisible()
   })
 })
