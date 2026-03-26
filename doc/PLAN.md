@@ -193,6 +193,147 @@ User clicks "Flag":
 
 ---
 
+## Phase 7 — Tests
+
+### Testing Stack
+
+| Tool | Purpose |
+|------|---------|
+| **Vitest** | Unit + integration test runner (ESM-native, faster than Jest) |
+| **React Testing Library** | Client Component rendering and interaction |
+| **@testing-library/user-event** | Realistic user interactions (click, type) |
+| **Playwright** | E2E — full browser flows against the running dev server |
+
+> Vitest is chosen over Jest because it is ESM-native and plays nicely with Tailwind v4 and Next.js 16's module system without complex transform config.
+
+---
+
+### Unit Tests — `lib/`
+
+**`lib/db.test.ts`**
+- `getTransactions` returns all transactions when no filter is given
+- `getTransactions` returns only `incoming` transactions when `filter=incoming`
+- `getTransactions` returns only `outgoing` transactions when `filter=outgoing`
+- `addNoteToTransaction` mutates the correct transaction and leaves others unchanged
+- `addNoteToTransaction` with unknown id does not throw
+- `toggleTransactionFlag` flips `flagged` from false → true
+- `toggleTransactionFlag` flips `flagged` from true → false
+
+**`lib/delay.test.ts`**
+- Returns a Promise that resolves after at least `min` ms
+- Resolved value is within `[min, max]` range
+
+---
+
+### Unit Tests — Server Actions
+
+Server Actions are plain async functions — testable directly without HTTP.
+
+**`actions/add-note.test.ts`**
+- Returns `{ success: false }` when `note` is empty (Zod validation)
+- Returns `{ success: false }` when `note` exceeds 500 chars
+- Returns `{ success: true }` and mutates db on valid input
+- Calls `revalidatePath` with the correct account path after success
+
+**`actions/flag-transaction.test.ts`**
+- Toggles flag to `true` when initially `false`
+- Toggles flag to `false` when initially `true`
+- Calls `revalidatePath` after mutation
+
+> `revalidatePath` and `delay` are mocked in these tests so they run instantly and don't hit Next.js internals.
+
+---
+
+### Component Tests — Client Components
+
+**`FilterTabs.test.tsx`**
+- Renders three tabs: All, Incoming, Outgoing
+- Highlights the active tab matching `currentFilter` prop
+- Calls `router.push` with correct `?filter=` value on tab click
+- Wraps navigation in `useTransition` — table dims while pending
+
+**`AddNoteDialog.test.tsx`**
+- Dialog is closed by default
+- Opens when the note button is clicked
+- Displays existing note text in the textarea if one exists
+- Submit button shows "Saving..." while action is pending (`isPending`)
+- Shows validation error message when returned from action
+- Closes dialog on successful submission
+
+**`FlagButton.test.tsx`**
+- Renders unflagged state correctly (outline icon, no fill)
+- Renders flagged state correctly (filled destructive icon)
+- Applies optimistic toggle immediately on click before server responds
+- Reverts to server state if action fails
+
+---
+
+### E2E Tests — Playwright
+
+**`e2e/filter.spec.ts`**
+- Navigating to `/accounts/acc_001` shows all transactions
+- Clicking "Incoming" tab updates URL to `?filter=incoming`
+- Only incoming transactions are visible after filter
+- Hard reload at `?filter=incoming` renders the correct filtered data (SSR verified)
+- Clicking "All" tab removes the filter from URL
+
+**`e2e/add-note.spec.ts`**
+- Clicking note button opens the dialog
+- Typing a note and submitting closes the dialog
+- The note text appears inline under the transaction description after submission
+- No full page reload occurs (URL does not change)
+
+**`e2e/flag.spec.ts`**
+- Clicking flag button immediately shows flagged state (optimistic)
+- Row gets subtle background tint when flagged
+- Hard reload shows the flag persisted (server state)
+- Clicking again unflagged the transaction
+
+**`e2e/loading.spec.ts`**
+- Skeleton is visible during initial page load (1–2s delay)
+- Skeleton is replaced by real content after data loads
+- Table dims (opacity) when switching filters
+
+---
+
+### File Structure — Tests
+
+```
+loan-engine/
+├── __tests__/
+│   ├── lib/
+│   │   ├── db.test.ts
+│   │   └── delay.test.ts
+│   ├── actions/
+│   │   ├── add-note.test.ts
+│   │   └── flag-transaction.test.ts
+│   └── components/
+│       ├── FilterTabs.test.tsx
+│       ├── AddNoteDialog.test.tsx
+│       └── FlagButton.test.tsx
+├── e2e/
+│   ├── filter.spec.ts
+│   ├── add-note.spec.ts
+│   ├── flag.spec.ts
+│   └── loading.spec.ts
+└── vitest.config.ts
+```
+
+---
+
+### Test Scripts
+
+```json
+"scripts": {
+  "test": "vitest run",
+  "test:watch": "vitest",
+  "test:e2e": "playwright test",
+  "test:e2e:ui": "playwright test --ui"
+}
+```
+
+---
+
 ## Definition of Done
 
 - [ ] Phase 1 — Foundation complete, app boots with NavBar and ThemeToggle
@@ -201,5 +342,7 @@ User clicks "Flag":
 - [ ] Phase 4 — Loan Summary Card renders with skeleton
 - [ ] Phase 5 — Transaction Table: filter, add note, flag all working
 - [ ] Phase 6 — Dark mode, responsive, color polish complete
+- [ ] Phase 7 — All unit + component tests passing (`pnpm test`)
+- [ ] Phase 7 — All E2E tests passing (`pnpm test:e2e`)
 - [ ] `pnpm dev` runs cleanly, no TypeScript errors
 - [ ] README updated with run instructions
