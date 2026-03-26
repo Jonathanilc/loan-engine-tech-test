@@ -5,7 +5,7 @@ vi.mock('@/lib/delay', () => ({ delay: vi.fn().mockResolvedValue(undefined) }))
 vi.mock('@/lib/db', () => ({
   getAccount: vi.fn().mockReturnValue({
     id: 'acc_001',
-    borrowerName: 'Jonathan Adeyemi',
+    borrowerName: 'Jonathan Xu',
     principal: 50000,
     outstandingBalance: 34218.5,
     interestRate: 6.75,
@@ -22,7 +22,7 @@ describe('LoanSummaryCard', () => {
 
   it('renders the borrower name', async () => {
     render(await LoanSummaryCard({ accountId: 'acc_001' }))
-    expect(screen.getByText('Jonathan Adeyemi')).toBeInTheDocument()
+    expect(screen.getByText('Jonathan Xu')).toBeInTheDocument()
   })
 
   it('renders the outstanding balance formatted as currency', async () => {

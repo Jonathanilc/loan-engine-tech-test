@@ -2,10 +2,15 @@ import { Suspense } from 'react'
 import type { TransactionFilter } from '@/lib/types'
 import { LoanSummaryCard } from './_components/LoanSummaryCard'
 import { LoanSummaryCardSkeleton } from './_components/LoanSummaryCardSkeleton'
+import { RecentActivity } from './_components/RecentActivity'
+import { PricingSetup } from './_components/PricingSetup'
+import { SecuritySettings } from './_components/SecuritySettings'
+import { LinkedAccounts } from './_components/LinkedAccounts'
+import { PaymentSettings } from './_components/PaymentSettings'
+import { Reconciliation } from './_components/Reconciliation'
 import { TransactionTable } from './_components/TransactionTable'
 import { TransactionTableSkeleton } from './_components/TransactionTableSkeleton'
 import { FilterTabs } from './_components/FilterTabs'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default async function AccountPage({
   params,
@@ -31,33 +36,30 @@ export default async function AccountPage({
       </header>
 
       <main className="flex flex-col gap-5 p-6">
-        {/* Loan overview card */}
+        {/* 1. Loan overview */}
         <Suspense fallback={<LoanSummaryCardSkeleton />}>
           <LoanSummaryCard accountId={accountId} />
         </Suspense>
 
-        {/* Placeholder sections */}
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Recent Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-xs text-muted-foreground">No recent activity to display.</p>
-            </CardContent>
-          </Card>
+        {/* 2. Recent Activity */}
+        <RecentActivity accountId={accountId} />
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Payment Settings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-xs text-muted-foreground">No payment settings configured.</p>
-            </CardContent>
-          </Card>
-        </div>
+        {/* 3. Pricing Setup */}
+        <PricingSetup accountId={accountId} />
 
-        {/* Transaction history */}
+        {/* 4. Security */}
+        <SecuritySettings accountId={accountId} />
+
+        {/* 5. Linked Accounts */}
+        <LinkedAccounts accountId={accountId} />
+
+        {/* 6. Payment Settings */}
+        <PaymentSettings accountId={accountId} />
+
+        {/* 7. Reconciliation */}
+        <Reconciliation accountId={accountId} />
+
+        {/* 8. Transaction History */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Transaction History</h2>
