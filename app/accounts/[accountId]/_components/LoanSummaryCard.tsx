@@ -1,6 +1,6 @@
 import { getAccount } from '@/lib/db'
 import { delay } from '@/lib/delay'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 
 function fmt(amount: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
@@ -10,13 +10,11 @@ function fmtDate(iso: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(iso))
 }
 
-function Field({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-0.5">
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className={accent ? 'text-sm font-semibold text-primary' : 'text-sm font-semibold'}>
-        {value}
-      </p>
+      <p className="text-sm font-semibold tabular-nums">{value}</p>
     </div>
   )
 }
@@ -30,27 +28,35 @@ export async function LoanSummaryCard({ accountId }: { accountId: string }) {
   const repaidPct = Math.max(0, Math.min(100, repaid))
 
   return (
-    <Card>
-      <CardHeader className="border-b pb-3 pt-4 px-5">
-        <div className="flex items-center justify-between">
+    <Card className="overflow-hidden">
+      {/* Hero strip */}
+      <div className="flex items-center justify-between border-b bg-background px-5 py-4">
+        <div className="flex items-center gap-4">
           <div>
-            <p className="text-base font-semibold">{account.borrowerName}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{accountId}</p>
+            <p className="text-xs text-muted-foreground">Outstanding Balance</p>
+            <p className="text-3xl font-bold tracking-tight text-primary tabular-nums">
+              {fmt(account.outstandingBalance)}
+            </p>
           </div>
-          <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
-            Active
-          </span>
+          <div className="hidden h-10 w-px bg-border sm:block" />
+          <div className="hidden sm:block">
+            <p className="text-xs text-muted-foreground">Borrower</p>
+            <p className="text-sm font-semibold">{account.borrowerName}</p>
+          </div>
         </div>
-      </CardHeader>
+        <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+          Active
+        </span>
+      </div>
 
+      {/* Stats grid */}
       <CardContent className="px-5 py-4 space-y-4">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
-          <Field label="Outstanding Balance" value={fmt(account.outstandingBalance)} accent />
-          <Field label="Principal" value={fmt(account.principal)} />
-          <Field label="Interest Rate" value={`${account.interestRate}%`} />
-          <Field label="Next Payment" value={fmt(account.nextPaymentAmount)} />
-          <Field label="Due Date" value={fmtDate(account.nextPaymentDate)} />
-          <Field label="Repaid" value={`${repaidPct.toFixed(1)}%`} />
+        <div className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3 lg:grid-cols-5">
+          <Stat label="Principal" value={fmt(account.principal)} />
+          <Stat label="Interest Rate" value={`${account.interestRate}%`} />
+          <Stat label="Next Payment" value={fmt(account.nextPaymentAmount)} />
+          <Stat label="Due Date" value={fmtDate(account.nextPaymentDate)} />
+          <Stat label="Repaid" value={`${repaidPct.toFixed(1)}%`} />
         </div>
 
         <div className="space-y-1.5">
@@ -66,7 +72,7 @@ export async function LoanSummaryCard({ accountId }: { accountId: string }) {
             className="h-1.5 w-full overflow-hidden rounded-full bg-secondary"
           >
             <div
-              className="h-full bg-primary transition-all"
+              className="h-full bg-primary transition-all duration-500"
               style={{ width: `${repaidPct}%` }}
             />
           </div>

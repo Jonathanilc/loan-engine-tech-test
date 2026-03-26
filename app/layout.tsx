@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <TooltipProvider>
             <div className="flex h-screen overflow-hidden">
               <AppSidebar />
-              <div className="flex flex-1 flex-col overflow-y-auto">
+              <div className="flex flex-1 flex-col overflow-y-auto bg-muted/30">
                 {children}
               </div>
             </div>

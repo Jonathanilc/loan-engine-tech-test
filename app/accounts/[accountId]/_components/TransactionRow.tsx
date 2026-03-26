@@ -1,6 +1,5 @@
 import type { Transaction } from '@/lib/types'
 import { TableCell, TableRow as TableRowUI } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { AddNoteDialog } from './AddNoteDialog'
 import { FlagButton } from './FlagButton'
@@ -13,10 +12,15 @@ function fmtDate(iso: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(iso))
 }
 
-const statusVariant: Record<Transaction['status'], 'default' | 'secondary' | 'destructive'> = {
-  completed: 'secondary',
-  pending: 'default',
-  failed: 'destructive',
+const statusStyles: Record<Transaction['status'], string> = {
+  completed: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+  pending:   'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+  failed:    'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+}
+
+const typeStyles: Record<Transaction['type'], string> = {
+  incoming: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
+  outgoing: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
 }
 
 export function TransactionRow({
@@ -27,15 +31,23 @@ export function TransactionRow({
   accountId: string
 }) {
   return (
-    <TableRowUI className={cn(transaction.flagged && 'bg-destructive/5')}>
-      <TableCell className="hidden text-sm text-muted-foreground md:table-cell">
+    <TableRowUI
+      className={cn(
+        'transition-colors hover:bg-muted/40',
+        transaction.flagged && 'bg-destructive/5 hover:bg-destructive/8'
+      )}
+    >
+      <TableCell className="hidden text-xs text-muted-foreground tabular-nums md:table-cell">
         {fmtDate(transaction.date)}
       </TableCell>
       <TableCell>
-        <div className="flex flex-col">
-          <span className="text-sm font-medium">{transaction.description}</span>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-medium leading-snug">{transaction.description}</span>
           {transaction.note && (
-            <span data-testid="transaction-note" className="text-xs text-muted-foreground">
+            <span
+              data-testid="transaction-note"
+              className="text-xs italic text-muted-foreground"
+            >
               {transaction.note}
             </span>
           )}
@@ -44,7 +56,7 @@ export function TransactionRow({
       <TableCell>
         <span
           className={cn(
-            'font-mono text-sm font-semibold',
+            'font-mono text-sm font-semibold tabular-nums',
             transaction.type === 'incoming'
               ? 'text-emerald-600 dark:text-emerald-400'
               : 'text-foreground'
@@ -55,19 +67,33 @@ export function TransactionRow({
         </span>
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        <Badge variant="outline">{transaction.type}</Badge>
+        <span
+          className={cn(
+            'inline-flex rounded-full px-2 py-0.5 text-xs font-medium',
+            typeStyles[transaction.type]
+          )}
+        >
+          {transaction.type}
+        </span>
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        <Badge variant={statusVariant[transaction.status]}>{transaction.status}</Badge>
+        <span
+          className={cn(
+            'inline-flex rounded-full px-2 py-0.5 text-xs font-medium',
+            statusStyles[transaction.status]
+          )}
+        >
+          {transaction.status}
+        </span>
       </TableCell>
-      <TableCell>
+      <TableCell className="w-8 pr-1">
         <AddNoteDialog
           accountId={accountId}
           transactionId={transaction.id}
           existingNote={transaction.note}
         />
       </TableCell>
-      <TableCell>
+      <TableCell className="w-8 pl-1">
         <FlagButton
           accountId={accountId}
           transactionId={transaction.id}

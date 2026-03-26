@@ -22,7 +22,7 @@ export default async function AccountPage({
   return (
     <>
       {/* Breadcrumb header */}
-      <header className="flex h-12 shrink-0 items-center border-b bg-background px-6 gap-1.5 text-sm">
+      <header className="flex h-12 shrink-0 items-center border-b bg-background px-6 gap-1.5 text-sm shadow-sm">
         <span className="text-muted-foreground">Accounts</span>
         <span className="text-muted-foreground/40">/</span>
         <span className="text-muted-foreground">{accountId}</span>
@@ -58,11 +58,11 @@ export default async function AccountPage({
         </div>
 
         {/* Transaction history */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Transaction History</h2>
+            <FilterTabs currentFilter={validFilter} accountId={accountId} />
           </div>
-          <FilterTabs currentFilter={validFilter} accountId={accountId} />
           <Suspense fallback={<TransactionTableSkeleton />}>
             <TransactionTable accountId={accountId} filter={validFilter} />
           </Suspense>
