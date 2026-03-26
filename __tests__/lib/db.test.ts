@@ -78,6 +78,12 @@ describe('db', () => {
         addNoteToTransaction('acc_001', 'unknown_tx', 'note')
       ).not.toThrow()
     })
+
+    it('does not throw for an unknown account id', () => {
+      expect(() =>
+        addNoteToTransaction('unknown_acc', 'tx_001', 'note')
+      ).not.toThrow()
+    })
   })
 
   // toggleTransactionFlag
@@ -105,6 +111,12 @@ describe('db', () => {
     it('does not throw for an unknown transaction id', () => {
       expect(() =>
         toggleTransactionFlag('acc_001', 'unknown_tx')
+      ).not.toThrow()
+    })
+
+    it('does not throw for an unknown account id', () => {
+      expect(() =>
+        toggleTransactionFlag('unknown_acc', 'tx_001')
       ).not.toThrow()
     })
   })
