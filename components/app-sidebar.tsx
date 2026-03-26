@@ -33,7 +33,7 @@ export function AppSidebar() {
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
           <span className="text-xs font-bold">L</span>
         </div>
-        <span className="font-semibold tracking-tight">LoanEngine</span>
+        <span className="font-heading font-extrabold tracking-tight">LoanEngine</span>
       </div>
 
       {/* Navigation */}

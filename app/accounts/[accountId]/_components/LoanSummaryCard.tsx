@@ -14,7 +14,7 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-0.5">
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-sm font-semibold tabular-nums">{value}</p>
+      <p className="font-mono text-sm font-medium tabular-nums">{value}</p>
     </div>
   )
 }
@@ -34,7 +34,7 @@ export async function LoanSummaryCard({ accountId }: { accountId: string }) {
         <div className="flex items-center gap-4">
           <div>
             <p className="text-xs text-muted-foreground">Outstanding Balance</p>
-            <p className="text-3xl font-bold tracking-tight text-primary tabular-nums">
+            <p className="font-heading text-3xl font-extrabold tracking-tighter text-primary tabular-nums">
               {fmt(account.outstandingBalance)}
             </p>
           </div>
