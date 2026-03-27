@@ -55,6 +55,7 @@ export function TransactionRow({
       </TableCell>
       <TableCell>
         <span
+          data-testid="transaction-amount"
           className={cn(
             'font-mono text-sm font-semibold tabular-nums',
             transaction.type === 'incoming'

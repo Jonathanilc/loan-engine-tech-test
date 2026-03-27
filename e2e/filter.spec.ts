@@ -26,7 +26,7 @@ test.describe('URL-driven filter', () => {
     expect(count).toBeGreaterThan(0)
 
     // Every visible amount should have a + prefix (incoming)
-    const amounts = page.locator('[data-testid="transaction-table"] tbody td span[class*="emerald"]')
+    const amounts = page.locator('[data-testid="transaction-table"] tbody td [data-testid="transaction-amount"][class*="emerald"]')
     await expect(amounts).toHaveCount(count)
   })
 
@@ -40,7 +40,7 @@ test.describe('URL-driven filter', () => {
     await expect(incomingTab).toHaveAttribute('data-active')
 
     // Should only show incoming rows
-    const amounts = page.locator('[data-testid="transaction-table"] tbody td span[class*="emerald"]')
+    const amounts = page.locator('[data-testid="transaction-table"] tbody td [data-testid="transaction-amount"][class*="emerald"]')
     const rows = page.locator('[data-testid="transaction-table"] tbody tr')
     const rowCount = await rows.count()
     await expect(amounts).toHaveCount(rowCount)
@@ -61,7 +61,7 @@ test.describe('URL-driven filter', () => {
     await page.waitForURL(/\?filter=outgoing/)
     await page.waitForSelector('table')
 
-    const emeraldAmounts = page.locator('[data-testid="transaction-table"] tbody td span[class*="emerald"]')
+    const emeraldAmounts = page.locator('[data-testid="transaction-table"] tbody td [data-testid="transaction-amount"][class*="emerald"]')
     await expect(emeraldAmounts).toHaveCount(0)
   })
 })
